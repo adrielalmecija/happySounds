@@ -26,7 +26,10 @@ leftEye.position.set(-0.3, 0.3, 0.11); // Adjusted position of the left eye
 rightEye.position.set(0.3, 0.3, 0.11); // Adjusted position of the right eye
 
 const coinGeometry = new THREE.CylinderGeometry(1, 1, 0.2, 32, 1);
-const coin = new THREE.Mesh(coinGeometry, yellowMaterial);
+const texture = new THREE.TextureLoader().load('src/texture.jpeg'); // Load the JPG texture
+const coinMaterial = new THREE.MeshBasicMaterial({ map: texture }); // Use the texture for the coin material
+coinMaterial.color.setRGB(0.5, 0.5, 0.5);
+const coin = new THREE.Mesh(coinGeometry, coinMaterial);
 coin.rotation.x = Math.PI / 2; // Rotate coin to make it vertical
 smile.rotation.y = Math.PI;
 
