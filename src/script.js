@@ -63,6 +63,18 @@ class BuildScene {
         coinAndFaceGroup.add(rightEye); // Add right eye to group
         scene.add(coinAndFaceGroup); // Add coin and face group to scene
 
+        // Initial rotation animation
+        let initialRotationEnabled = true; // Flag to control initial rotation
+        const initialRotationSpeed = 0.005; // Adjust the initial rotation speed
+        const initialRotationAxis = new THREE.Vector3(0, 1, 0); // Rotate around the y-axis
+        const initialRotation = () => {
+            if (initialRotationEnabled) {
+                coinAndFaceGroup.rotateOnAxis(initialRotationAxis, initialRotationSpeed);
+                requestAnimationFrame(initialRotation);
+            }
+        };
+        initialRotation();
+
         // Event listener for window resize
         const onWindowResize = () => {
             camera.aspect = window.innerWidth / window.innerHeight; // Set camera aspect ratio
@@ -70,11 +82,44 @@ class BuildScene {
             renderer.setSize(window.innerWidth, window.innerHeight); // Update renderer size
         };
 
+        // Touch event listener for rotating the coin
+        let touchStartX = 0;
+        let touchSpeed = 0;
+
+        const onTouchStart = (event) => {
+            touchStartX = event.touches[0].clientX;
+            touchSpeed = 0;
+            initialRotationEnabled = false; // Stop initial rotation
+        };
+
+        const onTouchMove = (event) => {
+            const touchDeltaX = event.touches[0].clientX - touchStartX;
+            coinAndFaceGroup.rotation.y += touchDeltaX * 0.01; // Adjust rotation based on touch movement
+            touchSpeed = touchDeltaX;
+            touchStartX = event.touches[0].clientX;
+        };
+
+        const onTouchEnd = () => {
+            const decayFactor = 0.95; // Adjust this to control the rate of decay
+            const decay = () => {
+                if (Math.abs(touchSpeed) > 0.001) {
+                    coinAndFaceGroup.rotation.y += touchSpeed * 0.05;
+                    touchSpeed *= decayFactor;
+                    requestAnimationFrame(decay);
+                }
+            };
+            decay();
+        };
+
+        // Add event listeners for touch events
+        window.addEventListener('touchstart', onTouchStart, false);
+        window.addEventListener('touchmove', onTouchMove, false);
+        window.addEventListener('touchend', onTouchEnd, false);
+
         // RequestAnimationFrame for rendering loop
         const raf = () => {
             requestAnimationFrame(() => {
                 renderer.render(scene, camera); // Render scene with camera
-                coinAndFaceGroup.rotation.y += 0.01; // Rotate coin and face group
                 raf(); // Request next animation frame
             });
         };
