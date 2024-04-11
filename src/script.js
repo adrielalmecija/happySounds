@@ -32,7 +32,7 @@ class BuildScene {
 
         // Object setup: Smile, Eyes, and Coin
         const torusGeometry = new THREE.TorusGeometry(0.5, 0.05, 16, 100, Math.PI); // Create torus geometry for smile
-        const blackMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 }); // Create black material for smile, eyes, and coin
+        const blackMaterial = new THREE.MeshStandardMaterial({ color: 0x000000, metalness: 0.25, roughness: 0.25 }); // Create black material for smile, eyes, and coin
         const smile = new THREE.Mesh(torusGeometry, blackMaterial); // Create smile mesh
         smile.castShadow = true; // Enable shadow casting for smile
         smile.position.set(0, 0, 0.11); // Set smile position
