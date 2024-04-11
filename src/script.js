@@ -31,9 +31,31 @@ class BuildScene {
         scene.add(directionalLight); // Add directional light to the scene
 
         // Object setup: Smile, Eyes, and Coin
-        const torusGeometry = new THREE.TorusGeometry(0.5, 0.05, 16, 100, Math.PI); // Create torus geometry for smile
         const blackMaterial = new THREE.MeshStandardMaterial({ color: 0x000000, metalness: 0.25, roughness: 0.25 }); // Create black material for smile, eyes, and coin
-        const smile = new THREE.Mesh(torusGeometry, blackMaterial); // Create smile mesh
+        
+        /* --- SMILE --- */
+        const smile = new THREE.Group(); // Create a group for smile
+
+        // Create torus geometry for the smile
+        const torusGeometry = new THREE.TorusGeometry(0.5, 0.05, 16, 100, Math.PI); // Create torus geometry for smile
+        const torus = new THREE.Mesh(torusGeometry, blackMaterial); // Create torus mesh
+        torus.castShadow = true; // Enable shadow casting for torus
+        smile.add(torus); // Add torus to smile group
+        
+        // Create the first round corner sphere
+        const cornerSphereGeometry1 = new THREE.SphereGeometry(0.05, 32, 32); // Create sphere geometry for corner 1
+        const cornerSphere1 = new THREE.Mesh(cornerSphereGeometry1, blackMaterial); // Create corner sphere 1 mesh
+        cornerSphere1.castShadow = true; // Enable shadow casting for corner sphere 1
+        cornerSphere1.position.set(-0.5, 0, 0); // Set position of corner sphere 1
+        smile.add(cornerSphere1); // Add corner sphere 1 to smile group
+        
+        // Create the second round corner sphere
+        const cornerSphereGeometry2 = new THREE.SphereGeometry(0.05, 32, 32); // Create sphere geometry for corner 2
+        const cornerSphere2 = new THREE.Mesh(cornerSphereGeometry2, blackMaterial); // Create corner sphere 2 mesh
+        cornerSphere2.castShadow = true; // Enable shadow casting for corner sphere 2
+        cornerSphere2.position.set(0.5, 0, 0); // Set position of corner sphere 2
+        smile.add(cornerSphere2); // Add corner sphere 2 to smile group
+
         smile.castShadow = true; // Enable shadow casting for smile
         smile.position.set(0, 0, 0.11); // Set smile position
         smile.rotation.z = Math.PI; // Rotate smile
