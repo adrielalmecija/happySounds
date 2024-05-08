@@ -7,7 +7,8 @@ class BuildScene {
 
     initialize() {
         // Renderer setup
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        const renderer = new THREE.WebGLRenderer({ antialias: true , alpha: true }); // Set alpha to true for transparency
+        renderer.setClearColor(0x000000, 0); // Set clear color to transparent
         renderer.shadowMap.enabled = true; // Enable shadow mapping
         renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Set shadow map type
         renderer.setSize(window.innerWidth, window.innerHeight); // Set renderer size
@@ -31,13 +32,13 @@ class BuildScene {
         scene.add(directionalLight); // Add directional light to the scene
 
         // Object setup: Smile, Eyes, and Coin
-        const blackMaterial = new THREE.MeshStandardMaterial({ color: 0x000000, metalness: 0.25, roughness: 0.25 }); // Create black material for smile, eyes, and coin
+        const blackMaterial = new THREE.MeshStandardMaterial({ color: 0x313131, metalness: 0.25, roughness: 0.25 }); // Create black material for smile, eyes, and coin
         
         /* --- SMILE --- */
         const smile = new THREE.Group(); // Create a group for smile
 
         // Create torus geometry for the smile
-        const torusGeometry = new THREE.TorusGeometry(0.5, 0.05, 16, 100, Math.PI); // Create torus geometry for smile
+        const torusGeometry = new THREE.TorusGeometry(0.6, 0.05, 16, 100, Math.PI); // Create torus geometry for smile
         const torus = new THREE.Mesh(torusGeometry, blackMaterial); // Create torus mesh
         torus.castShadow = true; // Enable shadow casting for torus
         smile.add(torus); // Add torus to smile group
@@ -46,14 +47,14 @@ class BuildScene {
         const cornerSphereGeometry1 = new THREE.SphereGeometry(0.05, 32, 32); // Create sphere geometry for corner 1
         const cornerSphere1 = new THREE.Mesh(cornerSphereGeometry1, blackMaterial); // Create corner sphere 1 mesh
         cornerSphere1.castShadow = true; // Enable shadow casting for corner sphere 1
-        cornerSphere1.position.set(-0.5, 0, 0); // Set position of corner sphere 1
+        cornerSphere1.position.set(-0.6, 0, 0); // Set position of corner sphere 1
         smile.add(cornerSphere1); // Add corner sphere 1 to smile group
         
         // Create the second round corner sphere
         const cornerSphereGeometry2 = new THREE.SphereGeometry(0.05, 32, 32); // Create sphere geometry for corner 2
         const cornerSphere2 = new THREE.Mesh(cornerSphereGeometry2, blackMaterial); // Create corner sphere 2 mesh
         cornerSphere2.castShadow = true; // Enable shadow casting for corner sphere 2
-        cornerSphere2.position.set(0.5, 0, 0); // Set position of corner sphere 2
+        cornerSphere2.position.set(0.6, 0, 0); // Set position of corner sphere 2
         smile.add(cornerSphere2); // Add corner sphere 2 to smile group
 
         smile.castShadow = true; // Enable shadow casting for smile
@@ -65,8 +66,8 @@ class BuildScene {
         const rightEye = new THREE.Mesh(eyeGeometry, blackMaterial); // Create right eye mesh
         leftEye.castShadow = true; // Enable shadow casting for left eye
         rightEye.castShadow = true; // Enable shadow casting for right eye
-        leftEye.position.set(-0.3, 0.3, 0.11); // Set left eye position
-        rightEye.position.set(0.3, 0.3, 0.11); // Set right eye position
+        leftEye.position.set(-0.2, 0.3, 0.11); // Set left eye position
+        rightEye.position.set(0.2, 0.3, 0.11); // Set right eye position
 
         const coinGeometry = new THREE.CylinderGeometry(1, 1, 0.2, 32, 1); // Create cylinder geometry for coin
         const textureCoin = new THREE.TextureLoader().load('src/texture.jpeg'); // Load texture for coin

@@ -1,4 +1,9 @@
 body {
     height: 100vh;
     margin: 0;
-  }
+    overflow: hidden; /* Hide scrollbar */
+    background-image: url('./background.jpeg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
